@@ -55,5 +55,12 @@ class Newspaper(models.Model):
 
         super().save(*args, **kwargs)
 
+    def get_publishers(self):
+        return ", ".join(
+            [f"{redactor.first_name} {redactor.last_name} ({redactor.username})" for redactor in self.publishers.all()])
+
+    def get_topics(self):
+        return ", ".join([topic.name for topic in self.topic.all()])
+
     def __str__(self):
         return self.title

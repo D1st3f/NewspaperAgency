@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block nav_bar %}
+  {% include "includes/navigation.html" %}
+{% endblock nav_bar %}
+{% block content %}
+
+  <div class="container mt-5">
+    <div class="mt-8"></div>
+    <div class="card">
+      <img src="{{ newspaper.image.url }}" alt="{{ newspaper.title }}" class="card-img-top img-fluid">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <h1 class="card-title display-4 text-dark">{{ newspaper.title }}</h1>
+      </div>
+      <div class="card-body">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <p class="card-text text-muted"><strong>Author:</strong> {{ newspaper.get_publishers }}</p>
+          <a href="/posts/" class="btn btn-outline-dark btn-lg">Back</a>
+        </div>
+        <hr>
+        <br>
+        <p class="card-text text-dark">{{ newspaper.content|linebreaksbr|safe }}</p>
+      </div>
+      <br>
+      <div class="card-footer text-muted d-flex justify-content-between">
+        <p class="card-text text-dark"><small><strong>Created:</strong> {{ newspaper.published_date }}</small></p>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
