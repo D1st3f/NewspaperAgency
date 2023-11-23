@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import generic
 
-from newspaper.forms import RegistrationForm, NewspaperForm, ContactForm
+from newspaper.forms import RegistrationForm, NewspaperForm, ContactForm, TopicForm
 from newspaper.models import Newspaper, Redactor, Topic
 
 
@@ -107,8 +107,25 @@ class TopicListView(generic.ListView):
 
     def get_queryset(self):
         queryset = Topic.objects.annotate(newspaper_count=Count('newspaper')).filter(newspaper_count__gt=0)
-        return queryset
+        return queryset.order_by('name')
 
 
 class TopicDetailView(generic.DetailView):
     model = Topic
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class TopicCreateView(generic.CreateView):
+    model = Topic
+    form_class = TopicForm
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.object = form.save()
+        newspapers = form.cleaned_data.get('newspapers')
+        if newspapers:
+            self.object.newspaper.set(newspapers)
+        return response
+
+    def get_success_url(self):
+        return reverse_lazy('newspaper:topic-detail', kwargs={'pk': self.object.pk})

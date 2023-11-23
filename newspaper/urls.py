@@ -10,6 +10,7 @@ from newspaper.views import (index,
                              PostsDeleteView,
                              TopicListView,
                              TopicDetailView,
+                             TopicCreateView,
                              )
 from newspaper_agency import settings
 
@@ -23,6 +24,7 @@ urlpatterns = [
     path("posts/<int:pk>/", PostsDetailView.as_view(), name='posts-detail'),
     path("topic/", TopicListView.as_view(), name='topic-list'),
     path("topic/<int:pk>/", TopicDetailView.as_view(), name='topic-detail'),
+    path("topic/create/", TopicCreateView.as_view(), name='topic-create'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 app_name = "newspaper"

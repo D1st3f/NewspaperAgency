@@ -2,7 +2,7 @@ from django import forms
 
 from django.contrib.auth.forms import UserCreationForm
 
-from newspaper.models import Redactor, Newspaper
+from newspaper.models import Redactor, Newspaper, Topic
 
 
 class RegistrationForm(UserCreationForm):
@@ -30,7 +30,17 @@ class NewspaperForm(forms.ModelForm):
     )
 
 
+class TopicForm(forms.ModelForm):
+    newspapers = forms.ModelMultipleChoiceField(
+        queryset=Newspaper.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+    )
+
+    class Meta:
+        model = Topic
+        fields = ['name', 'newspapers']
+
+
 class ContactForm(forms.Form):
     email = forms.EmailField(label='Email Address')
     message = forms.CharField(label='Your Message', widget=forms.Textarea)
-
