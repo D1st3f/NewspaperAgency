@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import generic
 
-from newspaper.forms import RegistrationForm, NewspaperForm
+from newspaper.forms import RegistrationForm, NewspaperForm, ContactForm
 from newspaper.models import Newspaper, Redactor, Topic
 
 
@@ -34,8 +34,15 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 
-class ConctactUsListView(generic.ListView):
-    pass
+def contact_us(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            pass
+    else:
+        form = ContactForm()
+
+    return render(request, 'newspaper/contact_us.html', {'form': form})
 
 
 class PostsListView(generic.ListView):

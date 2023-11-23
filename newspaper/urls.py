@@ -2,19 +2,20 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from newspaper.views import (index,
-                             ConctactUsListView,
+                             contact_us,
                              PostsListView,
                              PostsCreateView,
                              PostsDetailView,
                              PostsUpdateView,
                              PostsDeleteView,
                              TopicListView,
-                             TopicDetailView, )
+                             TopicDetailView,
+                             )
 from newspaper_agency import settings
 
 urlpatterns = [
     path("", index, name="index"),
-    path("contacts/", ConctactUsListView.as_view(), name='contacts'),
+    path('contact-us/', contact_us, name='contact_us'),
     path("posts/", PostsListView.as_view(), name='posts-list'),
     path("posts/create/", PostsCreateView.as_view(), name='posts-create'),
     path("posts/<int:pk>/update/", PostsUpdateView.as_view(), name='posts-update'),
