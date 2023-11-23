@@ -2,6 +2,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import generic
 
 from newspaper.forms import RegistrationForm
@@ -62,6 +63,19 @@ class PostsSearchView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['search_query'] = self.request.GET.get('q', '')
         return context
+
+
+class PostsUpdateView(generic.UpdateView):
+    model = Newspaper
+    fields = "__all__"
+
+    def get_success_url(self):
+        return reverse_lazy('newspaper:posts-detail', kwargs={'pk': self.object.pk})
+
+
+class PostsDeleteView(generic.DetailView):
+    model = Newspaper
+    success_url = reverse_lazy("newspaper:posts-detail")
 
 
 class TopicListView(generic.ListView):
