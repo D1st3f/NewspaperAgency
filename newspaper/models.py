@@ -49,17 +49,6 @@ class Newspaper(models.Model):
     class Meta:
         ordering = ["-published_date"]
 
-    def save(self, *args, **kwargs):
-        if self.image:
-            if os.path.exists(self.image.path):
-                img = Image.open(self.image.path)
-                if img.format == 'WEBP':
-                    new_path = os.path.splitext(self.image.path)[0] + '.jpg'
-                    img.convert('RGB').save(new_path, 'JPEG')
-                    self.image.name = os.path.relpath(new_path, 'media')
-
-        super().save(*args, **kwargs)
-
     def get_publishers(self):
         return ", ".join(
             [f"{redactor.first_name} {redactor.last_name}"
