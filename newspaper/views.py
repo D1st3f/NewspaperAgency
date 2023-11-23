@@ -1,5 +1,6 @@
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import login
+from django.db.models import Count
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -98,7 +99,12 @@ class PostsDeleteView(generic.DeleteView):
 
 class TopicListView(generic.ListView):
     model = Topic
-    paginate_by = 2
+    paginate_by = 8
+    template_name = 'newspaper/topic_list.html'
+
+    def get_queryset(self):
+        queryset = Topic.objects.annotate(newspaper_count=Count('newspaper')).filter(newspaper_count__gt=0)
+        return queryset
 
 
 class TopicDetailView(generic.DetailView):
