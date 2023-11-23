@@ -35,7 +35,7 @@ def generate_unique_filename(instance, filename):
 
 
 class Newspaper(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, unique=True)
     content = models.TextField()
     image = models.ImageField(upload_to=generate_unique_filename, blank=True, null=True)
     published_date = models.DateTimeField(auto_now_add=True)
@@ -46,12 +46,13 @@ class Newspaper(models.Model):
         ordering = ["-published_date"]
 
     def save(self, *args, **kwargs):
-        if os.path.exists(self.image.path):
-            img = Image.open(self.image.path)
-            if img.format == 'WEBP':
-                new_path = os.path.splitext(self.image.path)[0] + '.jpg'
-                img.convert('RGB').save(new_path, 'JPEG')
-                self.image.name = os.path.relpath(new_path, 'media')
+        if self.image:
+            if os.path.exists(self.image.path):
+                img = Image.open(self.image.path)
+                if img.format == 'WEBP':
+                    new_path = os.path.splitext(self.image.path)[0] + '.jpg'
+                    img.convert('RGB').save(new_path, 'JPEG')
+                    self.image.name = os.path.relpath(new_path, 'media')
 
         super().save(*args, **kwargs)
 

@@ -66,6 +66,15 @@ class PostsSearchView(generic.ListView):
 
 
 @method_decorator(staff_member_required, name='dispatch')
+class PostsCreateView(generic.CreateView):
+    model = Newspaper
+    form_class = NewspaperForm
+
+    def get_success_url(self):
+        return reverse_lazy('newspaper:posts-detail', kwargs={'pk': self.object.pk})
+
+
+@method_decorator(staff_member_required, name='dispatch')
 class PostsUpdateView(generic.UpdateView):
     model = Newspaper
     form_class = NewspaperForm
@@ -74,9 +83,10 @@ class PostsUpdateView(generic.UpdateView):
         return reverse_lazy('newspaper:posts-detail', kwargs={'pk': self.object.pk})
 
 
-class PostsDeleteView(generic.DetailView):
+@method_decorator(staff_member_required, name='dispatch')
+class PostsDeleteView(generic.DeleteView):
     model = Newspaper
-    success_url = reverse_lazy("newspaper:posts-detail")
+    success_url = reverse_lazy("newspaper:posts-list")
 
 
 class TopicListView(generic.ListView):
