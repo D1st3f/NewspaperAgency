@@ -37,7 +37,7 @@ def generate_unique_filename(instance, filename):
 class Newspaper(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
-    image = models.ImageField(upload_to=generate_unique_filename)
+    image = models.ImageField(upload_to=generate_unique_filename, blank=True, null=True)
     published_date = models.DateTimeField(auto_now_add=True)
     topic = models.ManyToManyField(Topic, related_name="newspaper")
     publishers = models.ManyToManyField(Redactor, related_name="newspaper")
