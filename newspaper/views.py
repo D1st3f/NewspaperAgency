@@ -46,6 +46,19 @@ class PostsDetailView(generic.DetailView):
     model = Newspaper
 
 
+class PostsSearchView(generic.ListView):
+    model = Newspaper
+    template_name = "newspaper/newspaper_list.html"
+    paginate_by = 6
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Newspaper.objects.filter(title__icontains=query) | Newspaper.objects.filter(content__icontains=query)
+        else:
+            return Newspaper.objects.all()
+
+
 class TopicListView(generic.ListView):
     model = Topic
     paginate_by = 2

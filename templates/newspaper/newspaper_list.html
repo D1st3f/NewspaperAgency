@@ -6,6 +6,15 @@
 
 {% block content %}
   <div class="mt-8"></div>
+  <div class="container mt-2">
+    <form method="get" action="{% url 'posts-search' %}">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search in posts..." name="q" style="height: 38px;">
+        <button class="btn btn-outline-secondary" type="submit" style="height: 38px;">Search</button>
+      </div>
+    </form>
+  </div>
+
   <div class="row mb-2">
     {% for newspaper in newspaper_list %}
       <div class="col-md-6">
@@ -17,7 +26,7 @@
             <p class="card-text mb-auto" style="overflow: hidden;">{{ newspaper.content|truncatewords:8 }}</p>
             <br>
             <a href="{% url 'newspaper:posts-detail' newspaper.pk %}" class="btn btn-outline-dark mb-0 btn-block">
-                Continue reading
+              Continue reading
             </a>
           </div>
           <div class="col-auto d-none d-lg-block">
@@ -38,5 +47,5 @@
     {% endfor %}
   </div>
 
-   {% include "includes/pagination.html" with page_obj=page_obj %}
+  {% include "includes/pagination.html" with page_obj=page_obj %}
 {% endblock content %}
