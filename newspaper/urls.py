@@ -6,7 +6,7 @@ from newspaper.views import (index,
                              PostsListView,
                              PostsDetailView,
                              TopicListView,
-                             TopicDetailView)
+                             TopicDetailView,)
 from newspaper_agency import settings
 
 urlpatterns = [

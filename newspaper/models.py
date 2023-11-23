@@ -42,6 +42,9 @@ class Newspaper(models.Model):
     topic = models.ManyToManyField(Topic, related_name="newspaper")
     publishers = models.ManyToManyField(Redactor, related_name="newspaper")
 
+    class Meta:
+        ordering = ["-published_date"]
+
     def save(self, *args, **kwargs):
         if os.path.exists(self.image.path):
             img = Image.open(self.image.path)
