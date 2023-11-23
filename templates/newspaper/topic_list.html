@@ -17,28 +17,36 @@
       </div>
     </form>
   </div>
-  <div class="row mb-2">
-    {% for topic in topic_list %}
-      <div class="col-md-6">
-        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-          <div class="col p-4 d-flex flex-column position-static">
-            <h3 class="mb-0">{{ topic.name }}</h3>
-            <p>{{ topic.newspaper_count }} Articles found.</p>
-            {% if topic.newspaper_count > 0 %}
-              <ul>
-                {% for newspaper in topic.newspaper.all|slice:":5" %}
-                  <li>{{ newspaper.title|truncatewords:5 }}</li>
-                {% endfor %}
-              </ul>
-            {% endif %}
-            <br>
-            <a href="{% url 'newspaper:topic-detail' topic.pk %}" class="btn btn-outline-dark mb-0 btn-block">
-              VIEW ARTICLES
-            </a>
+  {% if topic_list %}
+    <div class="row mb-2">
+      {% for topic in topic_list %}
+        <div class="col-md-6">
+          <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <h3 class="mb-0">{{ topic.name }}</h3>
+              <p>{{ topic.newspaper_count }} Articles found.</p>
+              {% if topic.newspaper_count > 0 %}
+                <ul>
+                  {% for newspaper in topic.newspaper.all|slice:":5" %}
+                    <li>{{ newspaper.title|truncatewords:5 }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+              <br>
+              <a href="{% url 'newspaper:topic-detail' topic.pk %}" class="btn btn-outline-dark mb-0 btn-block">
+                VIEW ARTICLES
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-    {% endfor %}
-  </div>
-  {% include "includes/pagination.html" with page_obj=page_obj %}
+      {% endfor %}
+    </div>
+    {% if page_obj.has_other_pages %}
+      {% include "includes/pagination.html" with page_obj=page_obj %}
+    {% endif %}
+  {% else %}
+    <div class="container">
+      <p>No topics found.</p>
+    </div>
+  {% endif %}
 {% endblock content %}
