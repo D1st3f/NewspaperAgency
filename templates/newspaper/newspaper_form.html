@@ -1,12 +1,40 @@
 {% extends "base.html" %}
 {% load crispy_forms_filters %}
+{% block title %}
+  <title>{% if object %}Update{% else %}Create{% endif %} post | {{ newspaper.title }}</title>
+{% endblock title %}
+{% block nav_bar %}
+  {% include "includes/navigation.html" %}
+{% endblock nav_bar %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-  <h1>{{ object|yesno:"Update,Create" }} post.</h1>
-  <form action="" method="post" novalidate>
-    {% csrf_token %}
-    {{ form|crispy }}
+  <div class="container mt-5">
+    <div class="mt-8"></div>
+    <h1>{{ object|yesno:"Update,Create" }} post.</h1>
+    <form action="" method="post" novalidate class="mt-4">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <div class="mt-4"></div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
 
-    <input type="submit" value="Submit" class="btn btn-primary">
-  </form>
+  <!-- Add spacing utility classes between form fields -->
+  <style>
+    .mt-2-fields {
+      margin-top: 1rem; /* Adjust as needed */
+    }
+  </style>
+
+  <script>
+    // Add spacing utility classes to form fields
+    document.addEventListener('DOMContentLoaded', function () {
+      var formGroups = document.querySelectorAll('.form-group');
+      formGroups.forEach(function (group) {
+        group.classList.add('mt-2-fields');
+      });
+    });
+  </script>
 {% endblock %}
+

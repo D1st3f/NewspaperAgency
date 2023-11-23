@@ -1,11 +1,13 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import generic
 
-from newspaper.forms import RegistrationForm
+from newspaper.forms import RegistrationForm, NewspaperForm
 from newspaper.models import Newspaper, Redactor, Topic
 
 
@@ -65,9 +67,10 @@ class PostsSearchView(generic.ListView):
         return context
 
 
+@method_decorator(staff_member_required, name='dispatch')
 class PostsUpdateView(generic.UpdateView):
     model = Newspaper
-    fields = "__all__"
+    form_class = NewspaperForm
 
     def get_success_url(self):
         return reverse_lazy('newspaper:posts-detail', kwargs={'pk': self.object.pk})
