@@ -1,6 +1,6 @@
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import login
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -63,7 +63,10 @@ class PostsSearchView(generic.ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
         if query:
-            return Newspaper.objects.filter(title__icontains=query) | Newspaper.objects.filter(content__icontains=query)
+            return Newspaper.objects.filter(
+                Q(title__icontains=query) | Q(content__icontains=query) |
+                Q(topic__name__icontains=query)
+            ).distinct()
         else:
             return Newspaper.objects.all()
 
