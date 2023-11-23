@@ -3,7 +3,6 @@
   <title>Posts | {{ newspaper.title }}</title>
 {% endblock title %}
 {% block content %}
-
   <div class="container mt-5">
     <div class="mt-7"></div>
     <div class="card">
@@ -16,7 +15,7 @@
       <div class="card-body">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <p class="card-text text-muted"><strong>Author:</strong> {{ newspaper.get_publishers }}</p>
-          <a href="/posts/" class="btn btn-outline-dark btn-lg">Back</a>
+          <a href="{% url 'newspaper:posts-list'%}" class="btn btn-outline-dark btn-lg">Back</a>
         </div>
         <hr>
         <br>
@@ -25,7 +24,6 @@
       <br>
       <div class="card-footer text-muted d-flex justify-content-between">
         <p class="card-text text-dark"><small><strong>Created:</strong> {{ newspaper.published_date }}</small></p>
-
         {% if user.is_authenticated and user.is_staff %}
           <div>
             <button onclick="window.location.href='{% url 'newspaper:posts-update' newspaper.pk %}'" type="button"

@@ -31,13 +31,17 @@ class Topic(models.Model):
 
 def generate_unique_filename(instance, filename):
     filename = f"{uuid4().hex}.jpg"
-    return os.path.join('images/', timezone.now().strftime('%Y/%m/%d/'), filename)
+    return os.path.join('images/',
+                        timezone.now().strftime('%Y/%m/%d/'),
+                        filename)
 
 
 class Newspaper(models.Model):
     title = models.CharField(max_length=255, unique=True)
     content = models.TextField()
-    image = models.ImageField(upload_to=generate_unique_filename, blank=True, null=True)
+    image = models.ImageField(upload_to=generate_unique_filename,
+                              blank=True,
+                              null=True)
     published_date = models.DateTimeField(auto_now_add=True)
     topic = models.ManyToManyField(Topic, related_name="newspaper")
     publishers = models.ManyToManyField(Redactor, related_name="newspaper")
@@ -58,7 +62,9 @@ class Newspaper(models.Model):
 
     def get_publishers(self):
         return ", ".join(
-            [f"{redactor.first_name} {redactor.last_name}" for redactor in self.publishers.all()])
+            [f"{redactor.first_name} {redactor.last_name}"
+             for redactor in self.publishers.all()]
+        )
 
     def get_topics(self):
         return ", ".join([topic.name for topic in self.topic.all()])

@@ -41,6 +41,12 @@ class TopicForm(forms.ModelForm):
         fields = ['name', 'newspapers']
 
 
+class TopicUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Topic
+        fields = ['name', ]
+
+
 class ContactForm(forms.Form):
     email = forms.EmailField(label='Email Address')
     message = forms.CharField(label='Your Message', widget=forms.Textarea)

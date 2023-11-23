@@ -4,7 +4,6 @@
   <title>{% if object %}Update{% else %}Create{% endif %} topic | {{ newspaper.title }}</title>
 {% endblock title %}
 {% load crispy_forms_tags %}
-
 {% block content %}
   <div class="container mt-5">
     <div class="mt-7"></div>
@@ -16,13 +15,11 @@
       <button type="submit" class="btn btn-success">Submit</button>
     </form>
   </div>
-
   <style>
       .mt-2-fields {
           margin-top: 1rem;
       }
   </style>
-
   <script>
       document.addEventListener('DOMContentLoaded', function () {
           var formGroups = document.querySelectorAll('.form-group');

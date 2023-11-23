@@ -1,10 +1,17 @@
 from django.test import TestCase
-from newspaper.models import Redactor, Newspaper, Topic, generate_unique_filename
+from newspaper.models import (Redactor,
+                              Newspaper,
+                              Topic,
+                              generate_unique_filename)
 
 
 class RedactorModelTest(TestCase):
     def test_redactor_model_str_method(self):
-        redactor = Redactor(username='john_doe', first_name='John', last_name='Doe')
+        redactor = Redactor(
+            username='john_doe',
+            first_name='John',
+            last_name='Doe'
+        )
         self.assertEqual(str(redactor), 'john_doe (John Doe)')
 
     def test_redactor_model_year_of_experience(self):
@@ -24,8 +31,16 @@ class NewspaperModelTest(TestCase):
         self.assertEqual(str(newspaper), 'Daily News')
 
     def test_newspaper_model_publishers(self):
-        redactor1 = Redactor.objects.create(username='john_doe1', first_name='John', last_name='Doe1')
-        redactor2 = Redactor.objects.create(username='john_doe2', first_name='John', last_name='Doe2')
+        redactor1 = Redactor.objects.create(
+            username='john_doe1',
+            first_name='John',
+            last_name='Doe1'
+        )
+        redactor2 = Redactor.objects.create(
+            username='john_doe2',
+            first_name='John',
+            last_name='Doe2'
+        )
 
         newspaper = Newspaper(title='Daily News', content='Breaking news!')
         newspaper.save()

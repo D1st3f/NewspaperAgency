@@ -15,9 +15,16 @@ class AdminPanelTest(TestCase):
             is_superuser=True
         )
 
-        self.redactor = Redactor.objects.create(username='john_doe', first_name='John', last_name='Doe')
+        self.redactor = Redactor.objects.create(
+            username='john_doe',
+            first_name='John',
+            last_name='Doe'
+        )
         self.topic = Topic.objects.create(name='Science')
-        self.newspaper = Newspaper.objects.create(title='Breaking News', content='Important information.')
+        self.newspaper = Newspaper.objects.create(
+            title='Breaking News',
+            content='Important information.'
+        )
 
     def test_admin_login(self):
         login_url = reverse('admin:login')
@@ -35,6 +42,9 @@ class AdminPanelTest(TestCase):
     def test_admin_edit_object(self):
         self.client.login(username='admin', password='adminpassword')
 
-        redactor_edit_url = reverse('admin:newspaper_redactor_change', args=[self.redactor.id])
+        redactor_edit_url = reverse(
+            'admin:newspaper_redactor_change',
+            args=[self.redactor.id]
+        )
         response = self.client.get(redactor_edit_url)
         self.assertEqual(response.status_code, 200)

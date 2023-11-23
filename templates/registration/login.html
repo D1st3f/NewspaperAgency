@@ -1,7 +1,5 @@
 {% extends "layouts/base-fullscreen.html" %}
-
 {% block title %} Sign IN {% endblock %}
-
 {% block content %}
   <div class="page-header align-items-start min-vh-100"
        style="background-image: url('https://i.pinimg.com/originals/09/c0/26/09c0263dc7634794f9902f748db10d3a.jpg');"
@@ -29,7 +27,6 @@
             </div>
             <div class="card-body">
               <form role="form" method="post" action="" class="text-start">
-
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.GET.next }}">
                 <div class="mb-3 text-start">
@@ -39,7 +36,6 @@
                   </div>
                   <span class="text-danger">{{ form.username.errors }}</span>
                 </div>
-
                 <div class="mb-3 text-start">
                   <div class="d-flex justify-content-between align-items-start">
                     <label class="form-label pe-2">Password</label>

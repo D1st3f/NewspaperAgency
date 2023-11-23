@@ -1,12 +1,16 @@
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import login
 from django.db.models import Count, Q
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views import generic
 
-from newspaper.forms import RegistrationForm, NewspaperForm, ContactForm, TopicForm
+from newspaper.forms import (RegistrationForm,
+                             NewspaperForm,
+                             ContactForm,
+                             TopicForm, TopicUpdateForm)
 from newspaper.models import Newspaper, Redactor, Topic
 
 
@@ -46,6 +50,15 @@ def contact_us(request):
     return render(request, 'newspaper/contact_us.html', {'form': form})
 
 
+def delete_topic_from_newspaper(request, post_id, topic_id):
+    if request.method == 'POST':
+        post = get_object_or_404(Newspaper, pk=post_id)
+        topic = get_object_or_404(Topic, pk=topic_id)
+        post.topic.remove(topic)
+        return HttpResponseRedirect(reverse('newspaper:topic-detail',
+                                            args=[topic_id]))
+
+
 class PostsListView(generic.ListView):
     model = Newspaper
     paginate_by = 6
@@ -64,7 +77,8 @@ class PostsSearchView(generic.ListView):
         query = self.request.GET.get('q')
         if query:
             return Newspaper.objects.filter(
-                Q(title__icontains=query) | Q(content__icontains=query) |
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
                 Q(topic__name__icontains=query)
             ).distinct()
         else:
@@ -82,7 +96,9 @@ class PostsCreateView(generic.CreateView):
     form_class = NewspaperForm
 
     def get_success_url(self):
-        return reverse_lazy('newspaper:posts-detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy(
+            'newspaper:posts-detail', kwargs={'pk': self.object.pk}
+        )
 
 
 @method_decorator(staff_member_required, name='dispatch')
@@ -91,7 +107,9 @@ class PostsUpdateView(generic.UpdateView):
     form_class = NewspaperForm
 
     def get_success_url(self):
-        return reverse_lazy('newspaper:posts-detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy(
+            'newspaper:posts-detail', kwargs={'pk': self.object.pk}
+        )
 
 
 @method_decorator(staff_member_required, name='dispatch')
@@ -106,7 +124,8 @@ class TopicListView(generic.ListView):
     template_name = 'newspaper/topic_list.html'
 
     def get_queryset(self):
-        queryset = Topic.objects.annotate(newspaper_count=Count('newspaper')).filter(newspaper_count__gt=0)
+        queryset = Topic.objects.annotate(
+            newspaper_count=Count('newspaper')).filter(newspaper_count__gt=0)
         return queryset.order_by('name')
 
 
@@ -128,4 +147,23 @@ class TopicCreateView(generic.CreateView):
         return response
 
     def get_success_url(self):
-        return reverse_lazy('newspaper:topic-detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy(
+            'newspaper:topic-detail', kwargs={'pk': self.object.pk}
+        )
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class TopicUpdateView(generic.UpdateView):
+    model = Topic
+    form_class = TopicUpdateForm
+
+    def get_success_url(self):
+        return reverse_lazy(
+            'newspaper:topic-detail', kwargs={'pk': self.object.pk}
+        )
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class TopicDeleteView(generic.DeleteView):
+    model = Topic
+    success_url = reverse_lazy("newspaper:topic-list")
