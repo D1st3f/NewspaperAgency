@@ -58,6 +58,11 @@ class PostsSearchView(generic.ListView):
         else:
             return Newspaper.objects.all()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_query'] = self.request.GET.get('q', '')
+        return context
+
 
 class TopicListView(generic.ListView):
     model = Topic

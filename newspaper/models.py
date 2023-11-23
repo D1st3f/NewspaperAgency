@@ -57,7 +57,7 @@ class Newspaper(models.Model):
 
     def get_publishers(self):
         return ", ".join(
-            [f"{redactor.first_name} {redactor.last_name} ({redactor.username})" for redactor in self.publishers.all()])
+            [f"{redactor.first_name} {redactor.last_name}" for redactor in self.publishers.all()])
 
     def get_topics(self):
         return ", ".join([topic.name for topic in self.topic.all()])
