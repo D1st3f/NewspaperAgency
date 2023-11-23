@@ -50,6 +50,7 @@ def contact_us(request):
     return render(request, 'newspaper/contact_us.html', {'form': form})
 
 
+@staff_member_required
 def delete_topic_from_newspaper(request, post_id, topic_id):
     if request.method == 'POST':
         post = get_object_or_404(Newspaper, pk=post_id)

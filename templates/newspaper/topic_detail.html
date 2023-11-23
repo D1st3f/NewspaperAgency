@@ -16,7 +16,9 @@
           <tr>
             <th scope="col">Title</th>
             <th scope="col">Authors</th>
-            <th scope="col">Actions</th>
+            {% if user.is_authenticated and user.is_staff %}
+              <th scope="col">Actions</th>
+            {% endif %}
           </tr>
           </thead>
           <tbody>
@@ -24,17 +26,20 @@
             <tr>
               <td class="mt-4">{{ post.title }}</td>
               <td>{{ post.get_publishers }}</td>
-              <td>
-                <form action="{% url 'newspaper:delete-topic-from-newspaper' post.pk topic.pk %}" method="post">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-danger btn-sm">DELETE</button>
-                </form>
-              </td>
+              {% if user.is_authenticated and user.is_staff %}
+                <td>
+                  <form action="{% url 'newspaper:delete-topic-from-newspaper' post.pk topic.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">DELETE</button>
+                  </form>
+                </td>
+              {% endif %}
             </tr>
           {% endfor %}
           </tbody>
         </table>
       </div>
+
       {% if user.is_authenticated and user.is_staff %}
         <div class="mt-3 d-flex justify-content-end p-4">
           <button onclick="window.location.href='{% url 'newspaper:topic-update' topic.pk %}'" type="button"
