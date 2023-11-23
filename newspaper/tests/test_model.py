@@ -1,5 +1,5 @@
 from django.test import TestCase
-from newspaper.models import Redactor, Newspaper, Topic
+from newspaper.models import Redactor, Newspaper, Topic, generate_unique_filename
 
 
 class RedactorModelTest(TestCase):
@@ -52,3 +52,20 @@ class NewspaperModelTest(TestCase):
     def test_topic_model_with_name(self):
         topic = Topic(name='Science')
         self.assertEqual(topic.name, 'Science')
+
+    def test_newspaper_model_get_publishers_empty(self):
+        newspaper = Newspaper(title='Daily News', content='Breaking news!')
+        newspaper.save()
+        self.assertEqual(newspaper.get_publishers(), '')
+
+    def test_newspaper_model_get_topics_empty(self):
+        newspaper = Newspaper(title='Daily News', content='Breaking news!')
+        newspaper.save()
+        self.assertEqual(newspaper.get_topics(), '')
+
+    def test_generate_unique_filename(self):
+        instance = None
+        filename1 = generate_unique_filename(instance, 'sample.jpg')
+        filename2 = generate_unique_filename(instance, 'sample.jpg')
+
+        self.assertNotEqual(filename1, filename2)
