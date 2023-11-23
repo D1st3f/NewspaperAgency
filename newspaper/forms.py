@@ -1,10 +1,8 @@
 from django import forms
-from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
-from django.forms import ModelForm
-from django.shortcuts import render
 
-from newspaper.models import Redactor, Newspaper, Topic
+from django.contrib.auth.forms import UserCreationForm
+
+from newspaper.models import Redactor, Newspaper
 
 
 class RegistrationForm(UserCreationForm):
