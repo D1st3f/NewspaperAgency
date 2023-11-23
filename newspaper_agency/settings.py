@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'newspaper',
     "crispy_forms",
     "crispy_bootstrap4",
+    'bootstrap5',
     'django_cleanup.apps.CleanupConfig',
 ]
 

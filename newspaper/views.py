@@ -1,5 +1,6 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import generic
 
@@ -32,5 +33,23 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 
-class ConctactsList(generic.ListView):
+class ConctactUsListView(generic.ListView):
+    pass
+
+
+class PostsListView(generic.ListView):
+    model = Newspaper
+    paginate_by = 6
+
+
+class PostsDetailView(generic.DetailView):
+    model = Newspaper
+
+
+class TopicListView(generic.ListView):
+    model = Topic
+    paginate_by = 2
+
+
+class TopicDetailView(generic.DetailView):
     model = Topic
