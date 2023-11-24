@@ -39,6 +39,6 @@ urlpatterns = [
     path("posts/<int:post_id>/delete-topic/<int:topic_id>/",
          delete_topic_from_newspaper,
          name='delete-topic-from-newspaper'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
 
 app_name = "newspaper"

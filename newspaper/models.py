@@ -39,15 +39,13 @@ def generate_unique_filename(instance, filename):
 class Newspaper(models.Model):
     title = models.CharField(max_length=255, unique=True)
     content = models.TextField()
-    image = models.ImageField(upload_to=generate_unique_filename,
-                              blank=True,
-                              null=True)
+    image_url = models.URLField(blank=True, null=True)
     published_date = models.DateTimeField(auto_now_add=True)
-    topic = models.ManyToManyField(Topic, related_name="newspaper")
-    publishers = models.ManyToManyField(Redactor, related_name="newspaper")
+    topic = models.ManyToManyField('Topic', related_name='newspaper')
+    publishers = models.ManyToManyField('Redactor', related_name='newspaper')
 
     class Meta:
-        ordering = ["-published_date"]
+        ordering = ['-published_date']
 
     def get_publishers(self):
         return ", ".join(

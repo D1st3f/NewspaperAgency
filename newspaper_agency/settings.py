@@ -91,8 +91,6 @@ DATABASES = {
     }
 }
 
-db_from_wnv = dj_database_url.config(conn_max_age=500)
-DATABASES["default"].update(db_from_wnv)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -137,9 +135,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = 'staticfiles/'
 STATICFILES_DIRS = (BASE_DIR / "static",)
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / "media"
 
 
 # Default primary key field type

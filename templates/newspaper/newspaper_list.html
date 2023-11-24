@@ -33,8 +33,8 @@
               </a>
             </div>
             <div class="col-auto d-none d-lg-block" style="flex: 1;">
-              {% if newspaper.image %}
-                <img src="{{ newspaper.image.url }}" alt="{{ newspaper.title }}"
+              {% if newspaper.image_url %}
+                <img src="{{ newspaper.image_url }}" alt="{{ newspaper.title }}"
                      style="width: 100%; height: 100%; object-fit: cover;">
               {% else %}
                 <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img"
