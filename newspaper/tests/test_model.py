@@ -8,79 +8,79 @@ from newspaper.models import (Redactor,
 class RedactorModelTest(TestCase):
     def test_redactor_model_str_method(self):
         redactor = Redactor(
-            username='john_doe',
-            first_name='John',
-            last_name='Doe'
+            username="john_doe",
+            first_name="John",
+            last_name="Doe"
         )
-        self.assertEqual(str(redactor), 'john_doe (John Doe)')
+        self.assertEqual(str(redactor), "john_doe (John Doe)")
 
     def test_redactor_model_year_of_experience(self):
-        redactor = Redactor(username='john_doe', year_of_experience=5)
+        redactor = Redactor(username="john_doe", year_of_experience=5)
         self.assertEqual(redactor.year_of_experience, 5)
 
 
 class TopicModelTest(TestCase):
     def test_topic_model_str_method(self):
-        topic = Topic(name='Science')
-        self.assertEqual(str(topic), 'Science')
+        topic = Topic(name="Science")
+        self.assertEqual(str(topic), "Science")
 
 
 class NewspaperModelTest(TestCase):
     def test_newspaper_model_str_method(self):
-        newspaper = Newspaper(title='Daily News', content='Breaking news!')
-        self.assertEqual(str(newspaper), 'Daily News')
+        newspaper = Newspaper(title="Daily News", content="Breaking news!")
+        self.assertEqual(str(newspaper), "Daily News")
 
     def test_newspaper_model_publishers(self):
         redactor1 = Redactor.objects.create(
-            username='john_doe1',
-            first_name='John',
-            last_name='Doe1'
+            username="john_doe1",
+            first_name="John",
+            last_name="Doe1"
         )
         redactor2 = Redactor.objects.create(
-            username='john_doe2',
-            first_name='John',
-            last_name='Doe2'
+            username="john_doe2",
+            first_name="John",
+            last_name="Doe2"
         )
 
-        newspaper = Newspaper(title='Daily News', content='Breaking news!')
+        newspaper = Newspaper(title="Daily News", content="Breaking news!")
         newspaper.save()
         newspaper.publishers.add(redactor1, redactor2)
         newspaper.save()
 
-        self.assertEqual(newspaper.get_publishers(), 'John Doe1, John Doe2')
+        self.assertEqual(newspaper.get_publishers(), "John Doe1, John Doe2")
 
     def test_newspaper_model_topics(self):
-        topic1 = Topic.objects.create(name='Science')
-        topic2 = Topic.objects.create(name='Technology')
+        topic1 = Topic.objects.create(name="Science")
+        topic2 = Topic.objects.create(name="Technology")
 
-        newspaper = Newspaper(title='Daily News', content='Breaking news!')
+        newspaper = Newspaper(title="Daily News", content="Breaking news!")
         newspaper.save()
         newspaper.topic.add(topic1, topic2)
         newspaper.save()
 
-        self.assertEqual(newspaper.get_topics(), 'Science, Technology')
+        self.assertEqual(newspaper.get_topics(), "Science, Technology")
 
     def test_redactor_model_with_year_of_experience(self):
-        redactor = Redactor(username='john_doe', year_of_experience=5)
+        redactor = Redactor(username="john_doe", year_of_experience=5)
         self.assertEqual(redactor.year_of_experience, 5)
 
     def test_topic_model_with_name(self):
-        topic = Topic(name='Science')
-        self.assertEqual(topic.name, 'Science')
+        topic = Topic(name="Science")
+        self.assertEqual(topic.name, "Science")
 
     def test_newspaper_model_get_publishers_empty(self):
-        newspaper = Newspaper(title='Daily News', content='Breaking news!')
+        newspaper = Newspaper(title="Daily News", content="Breaking news!")
         newspaper.save()
-        self.assertEqual(newspaper.get_publishers(), '')
+        self.assertEqual(newspaper.get_publishers(), "")
 
     def test_newspaper_model_get_topics_empty(self):
-        newspaper = Newspaper(title='Daily News', content='Breaking news!')
+        newspaper = Newspaper(title="Daily News", content="Breaking news!")
         newspaper.save()
-        self.assertEqual(newspaper.get_topics(), '')
+        self.assertEqual(newspaper.get_topics(), "")
 
     def test_generate_unique_filename(self):
         instance = None
-        filename1 = generate_unique_filename(instance, 'sample.jpg')
-        filename2 = generate_unique_filename(instance, 'sample.jpg')
+        filename1 = generate_unique_filename(instance, "sample.jpg")
+        filename2 = generate_unique_filename(instance, "sample.jpg")
 
         self.assertNotEqual(filename1, filename2)
