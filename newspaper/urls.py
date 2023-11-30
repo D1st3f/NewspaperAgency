@@ -2,7 +2,6 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from newspaper.views import (index,
-                             contact_us,
                              PostsListView,
                              PostsCreateView,
                              PostsDetailView,
@@ -12,12 +11,10 @@ from newspaper.views import (index,
                              TopicDetailView,
                              TopicCreateView,
                              TopicUpdateView,
-                             TopicDeleteView, delete_topic_from_newspaper, )
-from newspaper_agency import settings
+                             TopicDeleteView, delete_topic_from_newspaper)
 
 urlpatterns = [
     path("", index, name="index"),
-    path('contact-us/', contact_us, name='contact_us'),
     path("posts/", PostsListView.as_view(), name='posts-list'),
     path("posts/create/", PostsCreateView.as_view(), name='posts-create'),
     path("posts/<int:pk>/update/",
