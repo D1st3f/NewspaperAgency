@@ -10,8 +10,11 @@ from django.views import generic
 from newspaper.forms import (RegistrationForm,
                              NewspaperForm,
                              ContactForm,
-                             TopicForm, TopicUpdateForm)
-from newspaper.models import Newspaper, Redactor, Topic
+                             TopicForm,
+                             TopicUpdateForm)
+from newspaper.models import (Newspaper,
+                              Redactor,
+                              Topic)
 
 
 def index(request):
@@ -37,17 +40,6 @@ def register(request):
         form = RegistrationForm()
 
     return render(request, 'registration/register.html', {'form': form})
-
-
-def contact_us(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            pass
-    else:
-        form = ContactForm()
-
-    return render(request, 'newspaper/contact_us.html', {'form': form})
 
 
 @staff_member_required
