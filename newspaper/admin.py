@@ -32,10 +32,10 @@ class RedactorAdmin(UserAdmin):
 class NewspaperForm(forms.ModelForm):
     class Meta:
         model = Newspaper
-        fields = '__all__'
+        fields = "__all__"
         widgets = {
-            'topic': CheckboxSelectMultiple,
-            'publishers': CheckboxSelectMultiple,
+            "topic": CheckboxSelectMultiple,
+            "publishers": CheckboxSelectMultiple,
         }
 
 
